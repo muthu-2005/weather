@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('sky\ summer\ thunderstorm\ at\ night\ with\ one\ lightnin.jpg');
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        h1 {
+            padding-top: 50px;
+            position: relative;
+            font-size: 60px;
+            letter-spacing: 15px;
+            color: #ff095f;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+            line-height: 0.70em;
+            outline: none;
+            animation: animate 5s linear infinite;
+            
+        }
+
+        @keyframes animate {
+            0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90%, 92% {
+                color: #ee7b23;
+            }
+
+            18.1%, 20.1%, 30%, 50%, 88.1%, 90%, 92.1%, 100% {
+                color: #FFFF;
+                text-shadow: 0 0 10px #52edf9, 0 0 20px #52edf9, 0 0 40px #52edf9, 0 0 80px #52edf9,
+                    0 0 160px #52edf9;
+            }
+        }
+
+        .container {
+            width: 600px;
+            margin: 100px auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(27, 182, 225, 0.5);
+        }
+
+        .inputs {
+            border-radius: 20px;
+            padding: 2rem 0 2rem 0;
+            text-align: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4ad8ff, #ff095f);
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 74, 138, 0.8);
+        }
+
+        .inputs input[type="text"] {
+            height: 4rem;
+            width: 20rem;
+            background: rgba(33, 33, 33, 0.8);
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 4px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .inputs input[type="submit"] {
+            height: 3rem;
+            width: 6rem;
+            background: linear-gradient(135deg, #fffb00, #045c00);
+            font-weight: bold;
+            color: white;
+            font-size: 1rem;
+            margin-top: 20px;
+            border: none;
+            border-radius: 200px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 74, 138, 0.8);
+        }
+
+        .display {
+            text-align: center;
+            width: 520px;
+            color: #ce1888;
+        }
+
+        .wrapper {
+            margin: 0 9rem;
+            background-color: rgba(255, 230, 204, 0.8);
+            height: 35vh;
+            margin: 50px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(27, 182, 225, 0.5);
+        }
+
+        .wrapper h2 {
+            padding: 5px 0;
+            text-align: center;
+            background: #000000;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .wrapper p {
+            margin: 20px 0;
+            text-align: center;
+            color: #000000;
+            font-size: 23px;
+        }
+
+        .wrapper h2 span {
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+            line-height: 0.70em;
+            outline: none;
+            animation: animate 5s linear infinite;
+            font-size: 26px;
+            color: #ff6918;
+        }
+
+        .wrapper p span {
+            color: #136d03;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Weather Wise Hub</h1>
+    <div class="container">
+        <section class="main">
+            <section class="inputs">
+                <input type="text" placeholder="Enter Your City Name..." id="cityinput">
+                <input type="submit" value="Search" id="add">
+            </section>
+
+            <section class="display">
+                <div class="wrapper">
+                    <h2 id="cityoutput"></h2>
+                    <p id="description"></p>
+                    <p id="temp"></p>
+                    <p id="wind"></p>
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <script >
+        var inputvalue = document.querySelector('#cityinput')
+var btn = document.querySelector('#add');
+var city = document.querySelector('#cityoutput')
+var descrip = document.querySelector('#description')
+var temp = document.querySelector('#temp')
+var wind = document.querySelector('#wind')
+apik ="63a90ae96d390ec37d6c1252f5a86e1a"
+function convertion(val)
+{
+    return (val - 273).toFixed(3)
+}
+
+btn.addEventListener('click', function()
+{
+  fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputvalue.value+'&appid='+apik)
+  .then(res => res.json())
+
+  .then(data => 
+  {
+    var nameval = data['name']
+    var descrip = data['weather']['0']['description']
+    var tempature = data['main']['temp']
+    var wndspeed = data['wind']['speed']
+
+
+    city.innerHTML=`Weather of <span>${nameval}<span>`
+    temp.innerHTML = `Temperature: <span>${ convertion(tempature)} C</span>`
+    description.innerHTML = `Sky Conditions: <span>${descrip}<span>`
+    wind.innerHTML = `Wind Speed: <span>${wndspeed} km/h<span>`
+
+  })
+
+  .catch(err => alert('You entered Wrong city name'))
+})
+    </script>
+</body>
+
+</html>
